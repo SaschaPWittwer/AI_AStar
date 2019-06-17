@@ -149,6 +149,7 @@ def main():
         [[0, 0, 0, 0], [1, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]],
     ]
+    print("before:")
     printGrid(grid)
     start = (0, 0)
     end = (9, 9)
@@ -164,8 +165,8 @@ def main():
                         rotateRight(grid, i, j)
                     else:
                         break
-    print(count)
-
+    print("Rotation Count: " + str(count))
+    print("after:")
     printGrid(grid)
 
 
