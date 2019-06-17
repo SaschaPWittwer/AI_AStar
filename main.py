@@ -92,40 +92,88 @@ def run(grid, start, goal):
 
             open_nodes.append(child)
 
+# north east south west
+def rotateRight(grid, row, column):
+    grid[row][column] = [grid[row][column][3],grid[row][column][0],grid[row][column][1],grid[row][column][2]]
+
+
+# field [0,1] 
+def checkField(grid, row, column):
+    if row == 0 and column == 0:
+        if grid[row][column][0] == 1 and (grid[row][column][1] == 2 or grid[row][column][2] == 2):
+            return True
+        elif grid[row][column][3] == 1 and (grid[row][column][1] == 2 or grid[row][column][2] == 2):
+            return True
+        else:
+            return False
+    elif row-1 < 0 and column-1 >= 0:
+        if grid[row][column][3] == 1 and grid[row][column-1][1] == 2:
+            return True
+        else:
+            return False
+    elif row-1 >= 0 and column-1 < 0:
+        if grid[row][column][0] == 1 and grid[row-1][column][2] == 2:
+            return True
+        else:
+            return False
+    elif (grid[row][column][0] == 1 and grid[row-1][column][2] == 2) or (grid[row][column][3] == 1 and grid[row][column-1][1] == 2):
+        return True
+    else:
+        return False
+
+def printGrid(grid):
+    # Build visual output 0 = block, 1 = in, 2 = out
+    for row in grid:
+        print("-------  -------  -------  -------")
+        north = ""
+        eastWest = ""
+        south =""
+        for j, col in enumerate(row):
+            north += "|  " + str(col[0]) + "  |  "
+        for j, col in enumerate(row):
+            eastWest += "| " + str(col[3]) + " " + str(col[1]) + " |  "
+        for j, col in enumerate(row):
+            south += "|  " + str(col[2]) + "  |  "
+        print(north)
+        print(eastWest)
+        print(south)
+        print("-------  -------  -------  -------")
+
+
 
 def main():
 
     grid = [
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [[1, 2, 0, 0], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
+        [[0, 0, 0, 0], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
+        [[0, 0, 0, 0], [1, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+        [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]],
     ]
-
+    printGrid(grid)
     start = (0, 0)
     end = (9, 9)
-
-    path = run(grid, start, end)
-
-    # Build visual output
-    output = ""
+    count = 0
     for i, row in enumerate(grid):
-        if i > 0:
-            output += "\n"
         for j, col in enumerate(row):
-            if any(step[0] == i and step[1] == j for step in path):
-                output += "X "
-            else:
-                output += str(col) + " "
+            for y in range(4):
+                if(checkField(grid, i, j) == True):
+                    break
+                else:
+                    count += 1
+                    if (col[0] + col[1] + col[2] + col[3]) >= 3:
+                        rotateRight(grid, i, j)
+                    else:
+                        break
+    print(count)
 
-    print(output)
+    printGrid(grid)
 
+
+
+
+    #path = run(grid, start, end)
+
+  
 
 if __name__ == "__main__":
     main()
