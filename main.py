@@ -141,14 +141,37 @@ def printGrid(grid):
 
 
 
+def depthSearch(waterFrom, row, column, grid):
+    if (len(grid[row]) == row) and (len(grid[row][column]) == column):
+        return 1
+    if (grid[row][column][0] + grid[row][column][1] + grid[row][column][2] + grid[row][column][3]) < 3:
+        return 0
+    for i in range(3):
+        if grid[row][column][waterFrom] == 1:
+            break
+        else:
+            rotateRight(grid, row, column)
+    if grid[row][column][2] == 2:
+        depthSearch(0, row+1, column, grid)
+    if grid[row][column][3] == 2:
+        depthSearch(1, row, column+1, grid)
+    
+    
+
+
+
 def main():
 
     grid = [
-        [[1, 2, 0, 0], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
+        [[1, 2, 2, 0], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]],
     ]
+
+    depthSearch(1, 0, 0, grid)
+    printGrid(grid)
+
     print("before:")
     printGrid(grid)
     start = (0, 0)
@@ -167,6 +190,9 @@ def main():
                         break
     print("Rotation Count: " + str(count))
     print("after:")
+
+
+
     printGrid(grid)
 
 
