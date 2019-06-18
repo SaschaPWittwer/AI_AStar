@@ -142,19 +142,28 @@ def printGrid(grid):
 
 
 def depthSearch(waterFrom, row, column, grid):
+    # check goal state
     if (len(grid[row]) == row) and (len(grid[row][column]) == column):
         return 1
-    if (grid[row][column][0] + grid[row][column][1] + grid[row][column][2] + grid[row][column][3]) < 3:
-        return 0
-    for i in range(3):
+    
+    # check borders
+    if (len(grid) < row) or (len(grid) < column):
+        return -1
+
+    # rotate max 3 times
+    for _i in range(4):
         if grid[row][column][waterFrom] == 1:
-            break
+            if grid[row][column][1] == 2:
+                # go right
+                depthSearch(3, row, column+1, grid)
+            if grid[row][column][2] == 2:
+                # go down
+                depthSearch(0, row+1, column, grid)
         else:
             rotateRight(grid, row, column)
-    if grid[row][column][2] == 2:
-        depthSearch(0, row+1, column, grid)
-    if grid[row][column][3] == 2:
-        depthSearch(1, row, column+1, grid)
+    # this node is a dead end
+    return -1
+    
     
     
 
@@ -163,37 +172,41 @@ def depthSearch(waterFrom, row, column, grid):
 def main():
 
     grid = [
-        [[1, 2, 2, 0], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
-        [[0, 0, 0, 0], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
+        [[1, 0, 2, 2], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
+        [[0, 0, 1, 2], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]],
     ]
 
-    depthSearch(1, 0, 0, grid)
-    printGrid(grid)
-
     print("before:")
     printGrid(grid)
-    start = (0, 0)
-    end = (9, 9)
-    count = 0
-    for i, row in enumerate(grid):
-        for j, col in enumerate(row):
-            for y in range(4):
-                if(checkField(grid, i, j) == True):
-                    break
-                else:
-                    count += 1
-                    if (col[0] + col[1] + col[2] + col[3]) >= 3:
-                        rotateRight(grid, i, j)
-                    else:
-                        break
-    print("Rotation Count: " + str(count))
-    print("after:")
 
-
-
+    depthSearch(3, 0, 0, grid)
+    
+    print("solution:")
     printGrid(grid)
+
+    
+    # start = (0, 0)
+    # end = (9, 9)
+    # count = 0
+    # for i, row in enumerate(grid):
+    #     for j, col in enumerate(row):
+    #         for y in range(4):
+    #             if(checkField(grid, i, j) == True):
+    #                 break
+    #             else:
+    #                 count += 1
+    #                 if (col[0] + col[1] + col[2] + col[3]) >= 3:
+    #                     rotateRight(grid, i, j)
+    #                 else:
+    #                     break
+    # print("Rotation Count: " + str(count))
+    # print("after:")
+
+
+
+    #printGrid(grid)
 
 
 
