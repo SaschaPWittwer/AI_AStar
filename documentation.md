@@ -117,7 +117,7 @@ Nachher:
 
 ### 3. Ansatz Tiefensuche
 Im 3. Ansatz wollten wir einen Weg ein bisschen systematischer finden. Wir haben eine Funktion implementiert, welche überprüft ob sie einen Eingang zum vorherigen Feld hat und ob dann ein Ausgang entweder nach unten, nach rechts oder beides zeigt. Das Feld wird solange gedreht (max 4) bis der Eingang zum vorherigen Feld passt.
-Wenn kein Eingang gefunden wird, wird abgebrochen. Falls ein Eingang und Ausgangänge gefunden wird, wird für jede Ausgang die gleiche Funktion rekursiv aufgerufen und das anliegende Feld mitgegeben. Zudem wir noch der Ausgang mitgegeben, damit die Funktion weiss welcher Eingang beim neuen Feld überprüft werden muss.
+Wenn kein Eingang gefunden wird, wird abgebrochen. Falls ein Eingang und Ausgangänge gefunden wird, wird für jede Ausgang die gleiche Funktion rekursiv aufgerufen und das anliegende Feld mitgegeben. Zudem wir noch der Ausgang mitgegeben, damit die Funktion weiss welcher Eingang beim neuen Feld überprüft werden muss. die Rekursion hört auf wenn kein weg gefunden wurde oder wenn das Ziel erreicht wurde.
 
 ```python
 def depthSearch(waterFrom, row, column, grid):
