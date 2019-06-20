@@ -2,7 +2,30 @@
 ### by Sascha Wittwer, Yves Beutlus Navigatus and Joris Baiutti
 
 ### 1. Ansatz
-Da wir die Aufgabe nicht richtig gelesen haben, haben wir im ersten Schritt den A* Algorithmus mit phython implementiert und das Resultat auf der Konsole ausgegeben.
+Um einen Einblick in die Problematik zu erlangen haben wir als erstes eine einfache Implementation des A* Algorithmus gemacht. Dies gab gewisse einblicke wie wir die gestellte Aufgabe angehen könnten.
+
+Wir haben also eine rudimentäre Implementation des Algorithmus selbst in Python implementiert.
+Als Input haben wir ein einfaches 10x10 Grid verwendet welches 0 und 1 Werte beinhaltete.
+Ein 0 Wert stand für passierbare Felder während eine 1 ein nicht passierbares Feld kenzeichnet.
+Das Test-Grid wurde von uns statisch zur verfügung gestellt und nicht etwa zufällig generiert.
+Das haben wir so gewählt um die Komplexität zu senken da es "nur" eine Einführung in die Problemstellung geben sollte.
+
+Unser gewähltes Test-Grid sah also wie folgt aus:
+```
+0 1 0 0 1 0 1 0 0 0
+0 1 0 0 1 0 1 0 0 0
+0 1 0 0 0 0 1 0 0 0
+0 1 0 0 1 0 1 0 0 0
+0 1 0 0 1 0 1 0 0 0
+0 1 0 0 1 0 1 0 0 0
+0 1 0 0 1 0 1 0 0 0
+0 1 0 0 1 0 1 0 0 0
+0 0 0 0 1 0 0 0 0 0
+0 0 0 0 1 0 0 0 0 0
+```
+Unsere A* Implementation sollte nun einen best möglichen Wege von Punkt A nach Punkt B finden.
+Dies funktionierte nach einigen Entwicklungs-Iterationen nicht schlecht und so konnten wir folgendes Ergebniss erzielen:
+
 ```
 X 1 0 0 1 0 1 0 0 0
 X 1 0 0 1 0 1 0 0 0
@@ -15,9 +38,9 @@ X 1 X 0 1 X 1 0 0 0
 0 X 0 0 1 0 X 0 0 0
 0 0 0 0 1 0 0 X X X
 ```
-Die "x" Werte stellen den gefundenen Weg dar.
+Die "X" Werte stellen den gefundenen Weg dar.
 
-**Todo: Describe Algorithm shortly**
+Diese erste Implementation des A* half uns sehr gut die Problemstellung zu verstehen und gab uns einsicht in Punkte welche wir für die Folgenden Aufgaben berücksichtigen müssen.
 
 ### 2. Ansatz
 In einem zweiten Versuch haben wir eine check field funktion implementiert welche ein Feld überprüft ob es einen Eingang und einen Ausgang hat.
