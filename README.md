@@ -143,26 +143,31 @@ Im 3. Ansatz wollten wir einen Weg ein bisschen systematischer finden. Wir haben
 Wenn kein Eingang gefunden wird, wird abgebrochen. Falls ein Eingang und Ausgänge gefunden werden, wird für jeden Ausgang die gleiche Funktion rekursiv aufgerufen und das anliegende Feld mitgegeben. Zudem wird noch der Ausgang mitgegeben, damit die Funktion weiss,welcher Eingang beim neuen Feld überprüft werden muss. Die Rekursion hört auf, wenn kein Weg gefunden wurde oder wenn das Ziel erreicht wurde.
 
 ```python
-def depthSearch(waterFrom, row, column, grid):
+def depth_search(origin, pos, grid):
     # check goal state
-    if (len(grid[row]) == row) and (len(grid[row][column]) == column):
+    if (pos[0] == grid.size-1 and pos[1] == grid.size-1):
         return 1
     
     # check borders
-    if (len(grid) < row) or (len(grid) < column):
+    if (pos[0] == grid.size or pos[1] == grid.size):
         return -1
+
+    node = grid.nodes[pos[0]][pos[1]]
 
     # rotate max 3 times
     for _i in range(4):
-        if grid[row][column][waterFrom] == 1:
-            if grid[row][column][1] == 2:
+        node = grid.nodes[pos[0]][pos[1]]
+        # if water input is at right place
+        if node.values[origin] == 1:
+            if node.east == 2:
                 # go right
-                depthSearch(3, row, column+1, grid)
-            if grid[row][column][2] == 2:
+                depth_search(3, (pos[0], pos[1]+1), grid)
+            if node.south == 2:
                 # go down
-                depthSearch(0, row+1, column, grid)
+                depth_search(3, (pos[0]+1, pos[1]), grid)
         else:
-            rotateRight(grid, row, column)
+            rotate(grid, pos)
+
     # this node is a dead end
     return -1
 ```
