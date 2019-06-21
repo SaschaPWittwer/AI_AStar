@@ -127,18 +127,19 @@ def rotate(grid, position):
         grid.nodes[row][col].north,
         grid.nodes[row][col].east,
         grid.nodes[row][col].south
-    ])
+    ], grid.nodes[row][col].is_goal)
 
 def depth_search(origin, pos, grid):
     """
     Approach to solve the zenji puzzle with a recursive depth search.
     """
     # check goal state
-    if (pos[0] == grid.size-1 and pos[1] == grid.size-1):
-        return 1
+    #if (pos[0] == grid.size-1 and pos[1] == grid.size-1):
+        #return 1
     
     # check borders
     if (pos[0] == grid.size or pos[1] == grid.size):
+        print('outside')
         return -1
 
     node = grid.nodes[pos[0]][pos[1]]
@@ -148,22 +149,37 @@ def depth_search(origin, pos, grid):
         node = grid.nodes[pos[0]][pos[1]]
         # if water input is at right place
         if node.values[origin] == 1:
+            # check goal state
+            if node.is_goal == True:
+                print('goal')
+                return 1
             if node.east == 2:
                 # go right
-                depth_search(3, (pos[0], pos[1]+1), grid)
+                print('right')
+                x = depth_search(3, (pos[0], pos[1]+1), grid)
+                if x == 1: return 1
             if node.south == 2:
                 # go down
-                depth_search(3, (pos[0]+1, pos[1]), grid)
+                print('down')
+                x = depth_search(0, (pos[0]+1, pos[1]), grid)
+                if x == 1: return 1
         else:
+            print('rotate')
             rotate(grid, pos)
 
     # this node is a dead end
+    print('dead end' + str(node.values))
     return -1
 
 def main():
 
+    _grid = Grid([
+        [[1,2,2,0], [2,1,0,0]],
+        [[1,2,1,2], [0,0,1,0]]
+    ])
+
     grid = Grid([
-        [[1, 0, 2, 2], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
+        [[1, 0, 2, 0], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
         [[0, 0, 1, 2], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]]
@@ -172,10 +188,11 @@ def main():
     grid.print("Initial State")
 
     # solve the riddle
-    start = (0,0)
-    depth_search(3, start, grid)
+    solution = depth_search(3, (0,0), grid)
     
     grid.print("Goal State")
+
+    if solution != 1: print('The solution was not found!')
 
 if __name__ == "__main__":
     main()

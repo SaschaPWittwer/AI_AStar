@@ -24,9 +24,14 @@ class Grid:
         Prints the current Grid to the console.
         """
         print("\n" + title + ":\n")
+        
+        border = ""
+        for _i in range(self.size):
+            border += "-------  "
+
         for row in self.nodes:
             output = ""
-            print("-------  -------  -------  -------")
+            print(border)
             for _j, node in enumerate(row):
                 output += "|  " + str(node.north) + "  |  "
             output += '\n'
@@ -36,4 +41,4 @@ class Grid:
             for _j, node in enumerate(row):
                 output += "|  " + str(node.south) + "  |  "
             print(output)
-            print("-------  -------  -------  -------")
+            print(border)
