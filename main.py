@@ -133,16 +133,12 @@ def depth_search(origin, pos, grid):
     """
     Approach to solve the zenji puzzle with a recursive depth search.
     """
-    # check goal state
-    #if (pos[0] == grid.size-1 and pos[1] == grid.size-1):
-        #return 1
-    
     # check borders
     if (pos[0] == grid.size or pos[1] == grid.size):
         print('outside')
         return -1
 
-    node = grid.nodes[pos[0]][pos[1]]
+    #node = grid.nodes[pos[0]][pos[1]]
 
     # rotate max 3 times
     for _i in range(4):
@@ -168,7 +164,7 @@ def depth_search(origin, pos, grid):
             rotate(grid, pos)
 
     # this node is a dead end
-    print('dead end' + str(node.values))
+    print('dead end')
     return -1
 
 def main():
@@ -179,10 +175,10 @@ def main():
     ])
 
     grid = Grid([
-        [[1, 0, 2, 0], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
+        [[1, 0, 2, 0], [1, 0, 1, 2], [1, 0, 2, 0], [0, 0, 0, 0]],
         [[0, 0, 1, 2], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
-        [[0, 0, 0, 0], [1, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-        [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]]
+        [[1, 2, 2, 1], [1, 2, 2, 0], [0, 2, 0, 1], [2, 1, 0, 2]],
+        [[0, 0, 1, 0], [0, 0, 1, 2], [0, 1, 0, 2], [0, 0, 0, 1]]
     ])
 
     grid.print("Initial State")
