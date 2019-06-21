@@ -139,39 +139,51 @@ Nachher:
 ```
 
 ## 3. Ansatz Tiefensuche
-Im 3. Ansatz wollten wir einen Weg ein bisschen systematischer finden. Wir haben eine Funktion implementiert, welche überprüft ob sie einen Eingang zum vorherigen Feld hat und ob dann ein Ausgang entweder nach unten, nach rechts oder beides zeigt. Das Feld wird solange gedreht (max 4) bis der Eingang zum vorherigen Feld passt.
+Im 3. Ansatz wollten wir einen Weg ein bisschen systematischer finden. Wir haben eine Funktion implementiert, welche überprüft ob sie einen Eingang zum vorherigen Feld hat und ob dann ein Ausgang entweder nach unten, nach rechts oder beides zeigt. Das Feld wird solange gedreht (max 3) bis der Eingang zum vorherigen Feld passt.
 Wenn kein Eingang gefunden wird, wird abgebrochen. Falls ein Eingang und Ausgänge gefunden werden, wird für jeden Ausgang die gleiche Funktion rekursiv aufgerufen und das anliegende Feld mitgegeben. Zudem wird noch der Ausgang mitgegeben, damit die Funktion weiss,welcher Eingang beim neuen Feld überprüft werden muss. Die Rekursion hört auf, wenn kein Weg gefunden wurde oder wenn das Ziel erreicht wurde.
 
 ```python
 def depth_search(origin, pos, grid):
-    # check goal state
-    if (pos[0] == grid.size-1 and pos[1] == grid.size-1):
-        return 1
-    
+    """
+    Approach to solve the zenji puzzle with a recursive depth search.
+    """
     # check borders
     if (pos[0] == grid.size or pos[1] == grid.size):
+        print('outside')
         return -1
-
-    node = grid.nodes[pos[0]][pos[1]]
 
     # rotate max 3 times
     for _i in range(4):
         node = grid.nodes[pos[0]][pos[1]]
         # if water input is at right place
         if node.values[origin] == 1:
+            # check goal state
+            if node.is_goal == True:
+                print('goal')
+                return 1
             if node.east == 2:
                 # go right
-                depth_search(3, (pos[0], pos[1]+1), grid)
+                print('right')
+                x = depth_search(3, (pos[0], pos[1]+1), grid)
+                if x == 1: return 1
             if node.south == 2:
                 # go down
-                depth_search(3, (pos[0]+1, pos[1]), grid)
+                print('down')
+                x = depth_search(0, (pos[0]+1, pos[1]), grid)
+                if x == 1: return 1
+            
+            # try to rotate
+            print('rotate')
+            rotate(grid, pos)
         else:
+            print('rotate')
             rotate(grid, pos)
 
     # this node is a dead end
+    print('dead end')
     return -1
 ```
 
 Auch so wurde ein Weg gefunden.
 
-## 4. Ansatz Todo rotation count as cost
+
