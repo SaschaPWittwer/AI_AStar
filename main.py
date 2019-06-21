@@ -138,8 +138,6 @@ def depth_search(origin, pos, grid):
         print('outside')
         return -1
 
-    #node = grid.nodes[pos[0]][pos[1]]
-
     # rotate max 3 times
     for _i in range(4):
         node = grid.nodes[pos[0]][pos[1]]
@@ -159,6 +157,10 @@ def depth_search(origin, pos, grid):
                 print('down')
                 x = depth_search(0, (pos[0]+1, pos[1]), grid)
                 if x == 1: return 1
+            
+            # try to rotate
+            print('rotate')
+            rotate(grid, pos)
         else:
             print('rotate')
             rotate(grid, pos)
@@ -169,12 +171,12 @@ def depth_search(origin, pos, grid):
 
 def main():
 
-    _grid = Grid([
+    grid = Grid([
         [[1,2,2,0], [2,1,0,0]],
         [[1,2,1,2], [0,0,1,0]]
     ])
 
-    grid = Grid([
+    _grid = Grid([
         [[1, 0, 2, 0], [1, 0, 1, 2], [1, 0, 2, 0], [0, 0, 0, 0]],
         [[0, 0, 1, 2], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
         [[1, 2, 2, 1], [1, 2, 2, 0], [0, 2, 0, 1], [2, 1, 0, 2]],
