@@ -1,8 +1,8 @@
 ## AI Projekt Zenji
-### by Sascha Wittwer, Yves Beutlus Navigatus and Joris Baiutti
+### by Sascha Wittwer, Yves Beutler and Joris Baiutti
 
 ### 1. Ansatz
-Um einen Einblick in die Problematik zu erlangen haben wir als erstes eine einfache Implementation des A* Algorithmus gemacht. Dies gab gewisse einblicke wie wir die gestellte Aufgabe angehen könnten.
+Um einen Einblick in die Problematik zu erlangen, haben wir als erstes eine einfache Implementation des A* Algorithmus gemacht. Dies gab uns gewisse Einblicke wie wir die gestellte Aufgabe angehen könnten.
 
 Wir haben also eine rudimentäre Implementation des Algorithmus selbst in Python implementiert.
 Als Input haben wir ein einfaches 10x10 Grid verwendet welches 0 und 1 Werte beinhaltete.
@@ -23,8 +23,8 @@ Unser gewähltes Test-Grid sah also wie folgt aus:
 0 0 0 0 1 0 0 0 0 0
 0 0 0 0 1 0 0 0 0 0
 ```
-Unsere A* Implementation sollte nun einen best möglichen Wege von Punkt A nach Punkt B finden.
-Dies funktionierte nach einigen Entwicklungs-Iterationen nicht schlecht und so konnten wir folgendes Ergebniss erzielen:
+Unsere A* Implementation sollte nun einen bestmöglichen Weg von Punkt A nach Punkt B finden.
+Dies funktionierte nach einigen Entwicklungs-Iterationen nicht schlecht und so konnten wir folgendes Ergebnis erzielen:
 
 ```
 X 1 0 0 1 0 1 0 0 0
@@ -40,10 +40,10 @@ X 1 X 0 1 X 1 0 0 0
 ```
 Die "X" Werte stellen den gefundenen Weg dar.
 
-Diese erste Implementation des A* half uns sehr gut die Problemstellung zu verstehen und gab uns einsicht in Punkte welche wir für die Folgenden Aufgaben berücksichtigen müssen.
+Diese erste Implementation des A* half uns sehr gut die Problemstellung zu verstehen und gab uns Einsicht in Punkte welche wir für die folgenden Aufgaben berücksichtigen müssen.
 
 ### 2. Ansatz
-In einem zweiten Versuch haben wir eine check field funktion implementiert welche ein Feld überprüft ob es einen Eingang und einen Ausgang hat.
+In einem zweiten Versuch haben wir eine check field Funktion implementiert, welche ein Feld überprüft, ob es einen Eingang und einen Ausgang hat.
 Die Funktion prüft ob das Feld ein Nachbarfeld hat (oben und links), welches einen Ausgang hat, welcher auf einen Eingang beim aktuellen Feld passt.
 
 ```python
@@ -140,7 +140,7 @@ Nachher:
 
 ### 3. Ansatz Tiefensuche
 Im 3. Ansatz wollten wir einen Weg ein bisschen systematischer finden. Wir haben eine Funktion implementiert, welche überprüft ob sie einen Eingang zum vorherigen Feld hat und ob dann ein Ausgang entweder nach unten, nach rechts oder beides zeigt. Das Feld wird solange gedreht (max 4) bis der Eingang zum vorherigen Feld passt.
-Wenn kein Eingang gefunden wird, wird abgebrochen. Falls ein Eingang und Ausgangänge gefunden wird, wird für jede Ausgang die gleiche Funktion rekursiv aufgerufen und das anliegende Feld mitgegeben. Zudem wir noch der Ausgang mitgegeben, damit die Funktion weiss welcher Eingang beim neuen Feld überprüft werden muss. die Rekursion hört auf wenn kein weg gefunden wurde oder wenn das Ziel erreicht wurde.
+Wenn kein Eingang gefunden wird, wird abgebrochen. Falls ein Eingang und Ausgänge gefunden werden, wird für jeden Ausgang die gleiche Funktion rekursiv aufgerufen und das anliegende Feld mitgegeben. Zudem wird noch der Ausgang mitgegeben, damit die Funktion weiss,welcher Eingang beim neuen Feld überprüft werden muss. Die Rekursion hört auf, wenn kein Weg gefunden wurde oder wenn das Ziel erreicht wurde.
 
 ```python
 def depthSearch(waterFrom, row, column, grid):

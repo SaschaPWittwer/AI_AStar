@@ -1,5 +1,5 @@
+from grid import Grid
 from node import Node
-
 
 def run(grid, start, goal):
     start_node = Node(None, start)
@@ -92,11 +92,6 @@ def run(grid, start, goal):
 
             open_nodes.append(child)
 
-# north east south west
-def rotateRight(grid, row, column):
-    grid[row][column] = [grid[row][column][3],grid[row][column][0],grid[row][column][1],grid[row][column][2]]
-
-
 # field [0,1] 
 def checkField(grid, row, column):
     if row == 0 and column == 0:
@@ -121,99 +116,66 @@ def checkField(grid, row, column):
     else:
         return False
 
-def printGrid(grid):
-    # Build visual output 0 = block, 1 = in, 2 = out
-    for row in grid:
-        print("-------  -------  -------  -------")
-        north = ""
-        eastWest = ""
-        south =""
-        for j, col in enumerate(row):
-            north += "|  " + str(col[0]) + "  |  "
-        for j, col in enumerate(row):
-            eastWest += "| " + str(col[3]) + " " + str(col[1]) + " |  "
-        for j, col in enumerate(row):
-            south += "|  " + str(col[2]) + "  |  "
-        print(north)
-        print(eastWest)
-        print(south)
-        print("-------  -------  -------  -------")
+def rotate(grid, position):
+    """
+    Rotate a single tile clockwise.
+    """
+    row = position[0]
+    col = position[1]
+    grid.nodes[row][col] = Node([
+        grid.nodes[row][col].west,
+        grid.nodes[row][col].north,
+        grid.nodes[row][col].east,
+        grid.nodes[row][col].south
+    ])
 
-
-
-def depthSearch(waterFrom, row, column, grid):
+def depth_search(origin, pos, grid):
+    """
+    Approach to solve the zenji puzzle with a recursive depth search.
+    """
     # check goal state
-    if (len(grid[row]) == row) and (len(grid[row][column]) == column):
+    if (pos[0] == grid.size-1 and pos[1] == grid.size-1):
         return 1
     
     # check borders
-    if (len(grid) < row) or (len(grid) < column):
+    if (pos[0] == grid.size or pos[1] == grid.size):
         return -1
+
+    node = grid.nodes[pos[0]][pos[1]]
 
     # rotate max 3 times
     for _i in range(4):
-        if grid[row][column][waterFrom] == 1:
-            if grid[row][column][1] == 2:
+        node = grid.nodes[pos[0]][pos[1]]
+        # if water input is at right place
+        if node.values[origin] == 1:
+            if node.east == 2:
                 # go right
-                depthSearch(3, row, column+1, grid)
-            if grid[row][column][2] == 2:
+                depth_search(3, (pos[0], pos[1]+1), grid)
+            if node.south == 2:
                 # go down
-                depthSearch(0, row+1, column, grid)
+                depth_search(3, (pos[0]+1, pos[1]), grid)
         else:
-            rotateRight(grid, row, column)
+            rotate(grid, pos)
+
     # this node is a dead end
     return -1
-    
-    
-    
-
-
 
 def main():
 
-    grid = [
+    grid = Grid([
         [[1, 0, 2, 2], [1, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
         [[0, 0, 1, 2], [0, 1, 0, 2], [1, 0, 0, 2], [0, 0, 0, 0]],
         [[0, 0, 0, 0], [1, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-        [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]],
-    ]
+        [[0, 0, 0, 0], [1, 2, 0, 0], [0, 2, 0, 1], [0, 0, 0, 1]]
+    ])
 
-    print("before:")
-    printGrid(grid)
+    grid.print("Initial State")
 
-    depthSearch(3, 0, 0, grid)
+    # solve the riddle
+    start = (0,0)
+    depth_search(3, start, grid)
     
-    print("solution:")
-    printGrid(grid)
-
-    
-    # start = (0, 0)
-    # end = (9, 9)
-    # count = 0
-    # for i, row in enumerate(grid):
-    #     for j, col in enumerate(row):
-    #         for y in range(4):
-    #             if(checkField(grid, i, j) == True):
-    #                 break
-    #             else:
-    #                 count += 1
-    #                 if (col[0] + col[1] + col[2] + col[3]) >= 3:
-    #                     rotateRight(grid, i, j)
-    #                 else:
-    #                     break
-    # print("Rotation Count: " + str(count))
-    # print("after:")
-
-
-
-    #printGrid(grid)
-
-
-
-
-    #path = run(grid, start, end)
-
-  
+    grid.print("Goal State")
 
 if __name__ == "__main__":
     main()
